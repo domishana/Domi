@@ -197,6 +197,9 @@ class Chancellor(ActionCard): #宰相
 
     def played(self, user):
         user.pluscoins(2)
+        self.can_discard_all_deck(user)
+    
+    def can_discard_all_deck(self, user):
         print("山札をすべて捨て札にしますか")
         answer = user.answer_yn()
         if answer == 'y':
