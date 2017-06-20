@@ -235,8 +235,8 @@ class Adventurer(ActionCard): #冒険者
 
     def played(self, user):
         cards_list = self.revealed_until_open_two_treasure(user)
-        tmp_treasure = cards_list[1]
-        tmp_not_treasure = cards_list[2]
+        tmp_treasure = cards_list[0]
+        tmp_not_treasure = cards_list[1]
 
         user.add_hand(tmp_treasure)
         user.add_dispile(tmp_not_treasure)
@@ -263,6 +263,12 @@ class Cellar(ActionCard): #地下貯蔵庫
 
     def played(self, user):
         user.plusactions(1)
+        choices = self.choice_discard(user)
+        number = choices.counting()
+        user.add_dispile(choices)
+        user.draw(number)
+    
+    def choice_discard(self, user):
         choices = commonuse.CardsHolder()
         while True:
             print("捨て札にするカードを選んでください")
@@ -270,11 +276,9 @@ class Cellar(ActionCard): #地下貯蔵庫
             if discarded == -1:
                 break
             choices.add_cards(discarded)
-        number = choices.counting()
-        print(number)
-        user.add_dispile(choices)
-        user.draw(number)
-
+        return choices
+        
+    
 
 class Chapel(ActionCard): #礼拝堂
     def __init__(self):
