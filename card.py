@@ -285,6 +285,10 @@ class Chapel(ActionCard): #礼拝堂
         super().__init__("Chapel", "礼拝堂", 2, "王国", "アクション", "基本")
 
     def played(self, user):
+        choices = self.choice_trashed_under_4(user)
+        user.trashcard(choices)
+    
+    def choice_trashed_under_4(self,user):
         choices = commonuse.CardsHolder()
         for i in range(4):
             print("廃棄するカードを選んでください")
@@ -292,7 +296,7 @@ class Chapel(ActionCard): #礼拝堂
             if trashed == -1:
                 break
             choices.add_cards(trashed)
-        user.trashcard(choices)
+        return choices
 
 
 class Library(ActionCard): #書庫
