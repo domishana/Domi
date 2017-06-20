@@ -215,7 +215,12 @@ class Feast(ActionCard): #祝宴
     def played(self, user):
         user.playarea_pop(self)
         user.trashcard(self)
+        #self.trash_from_playarea(user)#これはどう考えても気持ち悪い。userのメソッドであるべき
         user.what_gain_undercost(5)
+    
+    def trash_from_playarea(self, user):
+        user.playarea_pop(self)
+        user.trashcard(self)
 
 
 class Workshop(ActionCard): #工房
