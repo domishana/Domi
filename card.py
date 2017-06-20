@@ -379,10 +379,14 @@ class MoneyLender(ActionCard): #金貸し
         if not user.is_card_in_hand('Copper'):
             print("廃棄するカードがありません")
             return
-        number = user.search_card_in_hand('Copper')
-        trashed = user.hand_pop(number)
+        trashed = self.pop_copper_from_hand(user)
         user.trashcard(trashed)
         user.pluscoins(3)
+    
+    def pop_copper_from_hand(self, user):
+        number = user.search_card_in_hand('Copper')
+        trashed = user.hand_pop(number)
+        return trashed
 
 class Moat(ActionCard, ReactionCard): #堀
     def __init__(self):
