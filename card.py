@@ -358,14 +358,18 @@ class Remodel(ActionCard): #改築
         if user.is_hand_empty():
             print("廃棄するカードがありません")
             return
+        trashed = self.choice_trashed(user)
+        user.trashcard(trashed)
+        user.what_gain_undercost(trashed.cost + 2)
+    
+    def choice_trashed(self, user):
         while True:
             print("廃棄するカードを選んでください")
             trashed = user.pop_from_hand()
             if trashed == -1:
                 continue
             break
-        user.trashcard(trashed)
-        user.what_gain_undercost(trashed.cost + 2)
+        return trashed
 
 class MoneyLender(ActionCard): #金貸し
     def __init__(self):
