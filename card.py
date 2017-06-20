@@ -213,9 +213,7 @@ class Feast(ActionCard): #祝宴
         super().__init__("Feast", "祝宴", 4, "王国", "アクション", "基本")
 
     def played(self, user):
-        user.playarea_pop(self)
-        user.trashcard(self)
-        #self.trash_from_playarea(user)#これはどう考えても気持ち悪い。userのメソッドであるべき
+        self.trash_from_playarea(user)#これはどう考えても気持ち悪い。userのメソッドであるべき
         user.what_gain_undercost(5)
     
     def trash_from_playarea(self, user):
