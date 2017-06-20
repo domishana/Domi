@@ -234,9 +234,17 @@ class Adventurer(ActionCard): #冒険者
         super().__init__("Adventurer", "冒険者", 6, "王国", "アクション", "基本")
 
     def played(self, user):
+        cards_list = self.revealed_until_open_two_treasure(user)
+        tmp_treasure = cards_list[1]
+        tmp_not_treasure = cards_list[2]
+
+        user.add_hand(tmp_treasure)
+        user.add_dispile(tmp_not_treasure)
+    
+    def revealed_until_open_two_treasure(self, user):
         tmp_treasure = commonuse.CardsHolder()
         tmp_not_treasure = commonuse.CardsHolder()
-
+        
         while tmp_treasure.counting() < 2:
             if user.is_deck_empty() and user.is_dispile_empty():
                 break
@@ -246,11 +254,7 @@ class Adventurer(ActionCard): #冒険者
                 tmp_treasure.add_cards(tmp)
             else:
                 tmp_not_treasure.add_cards(tmp)
-
-        tmp_treasure.print_cardlist()
-        tmp_not_treasure.print_cardlist()
-        user.add_hand(tmp_treasure)
-        user.add_dispile(tmp_not_treasure)
+        return [tmp_treasure, tmp_not_treasure]
 
 
 class Cellar(ActionCard): #地下貯蔵庫
