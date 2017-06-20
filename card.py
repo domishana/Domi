@@ -415,16 +415,22 @@ class Spy(ActionCard, AttackCard):
         user.use_attack()
         user.draw(1)
         user.plusactions(1)
-        for person in ([user] + user.other_players):
+        self.spy_decktop(user)
+       
+    def spy_decktop(self, user):
+         for person in ([user] + user.other_players):
             revealed = person.reveal_from_deck(1)[0]
-            print(revealed.jname)
-            print("このカードを捨てますか/戻しますか(y/n)")
-            answer = user.answer_yn()
-            if answer == 'y':
-                person.add_dispile(revealed)
-            else:
-                person.add_deck(revealed)
-
+            self.is_discard_or_puton_deck(user, person, revealed)#引数多い。うまくない分け方な気がする。
+    
+    def is_discard_or_puton_deck(self, user, subject, cards):
+        print(cards.jname)
+        print("このカードを捨てますか/戻しますか(y/n)")
+        answer = user.answer_yn()
+        if answer == 'y':
+            subject.add_dispile(cards)
+        else:
+            subject.add_deck(cards)
+                
 class Thief(ActionCard, AttackCard):
     def __init__(self):
         super().__init__("Thief", "泥棒", 4, "王国", "アクション-アタック", "基本")
