@@ -215,7 +215,12 @@ class Feast(ActionCard): #祝宴
     def played(self, user):
         user.playarea_pop(self)
         user.trashcard(self)
+        #self.trash_from_playarea(user)#これはどう考えても気持ち悪い。userのメソッドであるべき
         user.what_gain_undercost(5)
+    
+    def trash_from_playarea(self, user):
+        user.playarea_pop(self)
+        user.trashcard(self)
 
 
 class Workshop(ActionCard): #工房
@@ -360,7 +365,7 @@ class MoneyLender(ActionCard): #金貸し
         if not user.is_card_in_hand('Copper'):
             print("廃棄するカードがありません")
             return
-        number = user.index_card_in_hand('Copper')
+        number = user.index_card_in_hand('Copper')#直す必要あり
         trashed = user.hand_pop(number)
         user.trashcard(trashed)
         user.pluscoins(3)

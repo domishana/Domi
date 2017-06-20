@@ -40,7 +40,7 @@ class CardsHolder():
     def remove(self, element):
         self.list.remove(element)
 
-    def index(self, name):
+    def index(self, name):#直す必要あり。カードの名前ではなくあくまでオブジェクトと比較すべきでは……？
         cardname_list = [card.ename for card in self.list]
         return cardname_list.index(name)
 
