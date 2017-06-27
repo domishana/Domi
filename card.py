@@ -439,6 +439,12 @@ class Thief(ActionCard, AttackCard):
         user.use_attack()
         revealed = commonuse.CardsHolder()
         trasheds = commonuse.CardsHolder()
+        
+        self.players_reveal_two_cards(user, revealed, trasheds)
+        self.what_treasures_gain(user, trasheds)
+        user.trashcard(trasheds)
+    
+    def players_reveal_two_cards(self, user, revealed, trasheds):#何やっているのかひと目見て全くわからないメソッド。もうちょっと分割する。
         for one in user.other_players:
             revealed.add_cards(one.reveal_from_deck(2))
             revealed.print_cardlist()
@@ -454,15 +460,16 @@ class Thief(ActionCard, AttackCard):
                     break
             trasheds.add_cards(trashed)
             revealed.remove(trashed)
+            print(revealed.list)
             one.add_dispile(revealed)
             revealed.clear()
-
+        
+    def what_treasures_gain(self, user, treasures):
         while True:
             print("獲得する財宝カードを選んでください")
-            trasheds.print_cardlist()
+            treasures.print_cardlist()
             answer = int(input())
             if answer == -1:
                 break
-            gained = trasheds.pop(answer)
+            gained = treasures.pop(answer)
             user.add_dispile(gained) #獲得時効果があるカードの獲得時効果が発動しない　やはりgaincardの挙動を見直す必要あり
-        user.trashcard(trasheds)
