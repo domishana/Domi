@@ -64,7 +64,7 @@ class Player():
         if isinstance(target, list):
             [self.trashcard(i) for i in target]
 
-        if isinstance(target, CardsHolder):
+        if isinstance(target, commonuse.CardsHolder):
             [self.trashcard(i) for i in target.list]
 
 
