@@ -3,7 +3,6 @@ kindofvictoryc = 3  #基本勝利点カードの種類
 kindofaction = 10  #王国カードの種類
 
 class Field():
-    #zeropile = 0　->　コントラクタへ移動
     def __init__(self):
         self.trash = [] #廃棄置き場(単独)
         self.cursepile = Pile()  #呪い置き場(単独)
@@ -45,7 +44,7 @@ class Pile():  #サプライのカードの山
         self.name = ""  #山札に置かれているカードの名前
         self.cost = -1  #山札に置かれているカードのコスト
 
-    def zerocheck(self): #山をチェックし、それが残り0枚ならzeropileをインクリメントする
+    def zerocheck(self): #山の残り枚数をチェックする。
         if len(self.pile) == 0:
             return 1
         return 0
