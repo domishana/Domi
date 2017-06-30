@@ -1,5 +1,6 @@
 import card
 import random
+
 class CardType():
     cardtype = {'action':'isaction', 'treasure':'istreasure', 'victory':'isvictory', 'curse':'iscurse', 'reaction':'isreaction', 'attack':'isattack'}
 

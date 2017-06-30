@@ -19,6 +19,12 @@ class Card(): #カード
     def trashed(self, user):  #カードが廃棄された時の挙動
         pass
 
+    def reacted(self, user):
+        pass
+    
+    def attack_reactable(self):
+        return False
+     
     def is_type(self, ctype):
         typec = commonuse.CardType.get_cardtype(ctype)
         return hasattr(self, typec)
@@ -395,8 +401,12 @@ class Moat(ActionCard, ReactionCard): #堀
     def played(self, user):
         user.draw(2)
 
-    def reacted(self):
-        pass
+    def reacted(self, user):
+        user.protect_from_attack()
+        print("堀を使用しました")
+        
+    def attack_reactable(self):
+        return True
 
 class Witch(ActionCard, AttackCard):
     def __init__(self):
@@ -405,7 +415,8 @@ class Witch(ActionCard, AttackCard):
     def played(self, user):
         user.use_attack()
         user.draw(2)
-        [x.gaincard(1) for x in user.other_players]
+        [x.gaincard(1) for x in user.other_players if not user.is_protected()]
+        user.end_attack()
 
 class Spy(ActionCard, AttackCard):
     def __init__(self):

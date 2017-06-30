@@ -11,7 +11,7 @@ class Player():
         self.isHuman = 0
         self.other_players = []
         self.gameinfo = PlayerGameInfo(game)
-    
+        self.protected = 0
 
     def print_hand(self):
         self.cards.print_hand()
@@ -66,7 +66,6 @@ class Player():
 
         if isinstance(target, commonuse.CardsHolder):
             [self.trashcard(i) for i in target.list]
-
 
     def put_on_trash(self, cards):
         self.gameinfo.put_on_trash(cards)
@@ -164,14 +163,29 @@ class Player():
         return self.cards.search_card_in_hand(ename)
 
     def use_attack(self):
-        pass
+        self.gameinfo.use_attack(self)
+        
+    def attacked(self):
+        self.cards.attacked(self)
 
     def deck_count(self):
         return self.cards.deck_count()
 
     def hand_count(self):
         return self.cards.hand_count()
-
+        
+    def protect_from_attack(self):
+        self.protectd = 1
+    
+    def is_protected(self):
+        return self.protected
+        
+    def end_attack(self):
+        self.gameinfo.end_attack(self)
+    
+    def end_attacked(self):
+        self.protected = 0
+    
 
 class PlayerCards():
     def __init__(self):
@@ -286,8 +300,24 @@ class PlayerCards():
         number = self.playarea.index(cards)
         popcard = self.playarea.pop(number)
         return popcard
+    
+    def attacked(self, user):
+        cards = commonuse.CardsHolder([c for c in self.hand.list if c.attack_reactable()])
+        
+        while True:
+            if cards.is_empty():
+                return
+            
+            cards.print_cardlist()
+            print("どのリアクションカードを使用しますか")
+            answer = int(input())
+            if answer == -1:
+                return
+        
+            card_react = cards.pickup(answer)
+            card_react.reacted(user)
 
-
+            
 class AvailablePerTurn():
     def __init__(self):
         self.rest_actions = 1
@@ -347,6 +377,13 @@ class PlayerGameInfo():
 
     def add_zeropile(self):
         self.game.add_zeropile()
+        
+    def use_attack(self, user):
+        self.game.used_attack_by(user)
+    
+    def end_attack(self, user):
+        self.game.end_attack_by(user)
+        
 
 #任意のプレイヤーは捨て札の一番上のカードをいつでも見ることができる
 #プレイヤーはデッキの残り枚数を数えることができる

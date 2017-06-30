@@ -27,8 +27,8 @@ def player_decide(game, nontest):
     if nontest is None:
         testplayer = [player.Player(game), player.Player(game), player.Player(game), player.Player(game)]
         return testplayer
-    testplayer = [aiplayer.AIPlayer1(game), aiplayer.AIPlayer2(game), humanplayer.HumanPlayer(game), aiplayer.AIPlayer1(game)]
+    testplayer = [humanplayer.HumanPlayer(game), humanplayer.HumanPlayer(game), humanplayer.HumanPlayer(game), aiplayer.AIPlayer1(game)]
     return testplayer
 
 def supply_decide():
-    return [card.Smithy, card.Thief, card.Chancellor, card.Witch, card.MoneyLender, card.Festival, card.CouncilRoom, card.Cellar, card.Remodel, card.Workshop]
+    return [card.Smithy, card.Moat, card.Chancellor, card.Witch, card.MoneyLender, card.Festival, card.CouncilRoom, card.Cellar, card.Remodel, card.Workshop]

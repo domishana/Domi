@@ -111,7 +111,12 @@ class Game():
 
     def add_zeropile(self):
         self.field.add_zeropile()
-
+        
+    def used_attack_by(self, user):
+        [x.attacked() for x in user.other_players]
+        
+    def end_attack_by(self, user):
+        [x.end_attacked() for x in user.other_players]
 
 class Turn():
     def __init__(self, player, field):
