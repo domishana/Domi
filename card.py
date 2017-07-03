@@ -415,7 +415,7 @@ class Witch(ActionCard, AttackCard):
     def played(self, user):
         user.use_attack()
         user.draw(2)
-        [x.gaincard(1) for x in user.other_players if not user.is_protected()]
+        [x.gaincard(1) for x in user.other_players if not x.is_protected()]
         user.end_attack()
 
 class Spy(ActionCard, AttackCard):

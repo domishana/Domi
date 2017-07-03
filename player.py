@@ -175,7 +175,7 @@ class Player():
         return self.cards.hand_count()
         
     def protect_from_attack(self):
-        self.protectd = 1
+        self.protected = 1
     
     def is_protected(self):
         return self.protected
