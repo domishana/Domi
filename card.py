@@ -1,5 +1,6 @@
 import player
 import commonuse
+from commonuse import attack_effect
 
 class Card(): #カード
     def __init__(self, ename, jname, cost, clas, ctype, setname):
@@ -411,12 +412,12 @@ class Moat(ActionCard, ReactionCard): #堀
 class Witch(ActionCard, AttackCard):
     def __init__(self):
         super().__init__("Witch", "魔女", 5, "王国", "アクション-アタック", "基本")
-
+    
+    @commonuse.attack_effect
     def played(self, user):
-        user.use_attack()
         user.draw(2)
         [x.gaincard(1) for x in user.other_players if not x.is_protected()]
-        user.end_attack()
+        
 
 class Spy(ActionCard, AttackCard):
     def __init__(self):

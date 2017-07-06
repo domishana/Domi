@@ -13,6 +13,13 @@ class Player():
         self.gameinfo = PlayerGameInfo(game)
         self.protected = 0
 
+    def print_test(self):
+        print("test")
+        
+    def print_test2(self):
+        print("test2")
+    
+    
     def print_hand(self):
         self.cards.print_hand()
 

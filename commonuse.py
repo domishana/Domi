@@ -1,5 +1,14 @@
-import card
 import random
+from functools import wraps
+
+def attack_effect(func):
+    from functools import wraps
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        args[1].use_attack()
+        func(*args, **kwargs)
+        args[1].end_attack()
+    return wrapper
 
 class CardType():
     cardtype = {'action':'isaction', 'treasure':'istreasure', 'victory':'isvictory', 'curse':'iscurse', 'reaction':'isreaction', 'attack':'isattack'}
@@ -52,6 +61,7 @@ class CardsHolder():
         return self.list == []
 
     def add_cards(self, cards):
+        import card
         if isinstance(cards, card.Card):
             self.list.append(cards)
             return
