@@ -423,14 +423,16 @@ class Spy(ActionCard, AttackCard):
     def __init__(self):
         super().__init__("Spy", "密偵", 4, "王国", "アクション-アタック", "基本")
 
+    @commonuse.attack_effect
     def played(self, user):
-        user.use_attack()
         user.draw(1)
         user.plusactions(1)
         self.spy_decktop(user)
        
     def spy_decktop(self, user):
          for person in ([user] + user.other_players):
+            if person.is_protected():
+                continue
             revealed = person.reveal_from_deck(1)[0]
             self.is_discard_or_puton_deck(user, person, revealed)#引数多い。うまくない分け方な気がする。
     
@@ -447,8 +449,8 @@ class Thief(ActionCard, AttackCard):
     def __init__(self):
         super().__init__("Thief", "泥棒", 4, "王国", "アクション-アタック", "基本")
 
+    @commonuse.attack_effect
     def played(self, user):
-        user.use_attack()
         revealed = commonuse.CardsHolder()
         trasheds = commonuse.CardsHolder()
         
@@ -458,6 +460,9 @@ class Thief(ActionCard, AttackCard):
     
     def players_reveal_two_cards(self, user, revealed, trasheds):#何やっているのかひと目見て全くわからないメソッド。もうちょっと分割する。
         for one in user.other_players:
+            if one.is_protected():
+                continue
+            
             revealed.add_cards(one.reveal_from_deck(2))
             revealed.print_cardlist()
             if not revealed.is_type_exist('treasure'):
