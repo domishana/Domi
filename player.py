@@ -230,17 +230,23 @@ class PlayerCards():
 
     def search_card_in_hand(self, ename):
         return self.hand.search(ename)
+    
+    def turn_over_from_deck(self, number):
+        cards = commonuse.CardsHolder()
+        if number == 0:
+            return cards
+        if number > self.deck_count() and not self.is_dispile_empty():
+            #デッキの枚数が足りず、かつ捨て札があるとき(デッキ足りなくて捨て札もないときに詰みそう)
+            number -= self.deck_count()
+            self.deck.all_move_to(cards, 'r')
+            self.dispile_to_deck()
+        turnover_cards = self.pop_from_decktop(number)
+        cards.add_cards(turnover_cards[::-1])
+        return cards
 
     def draw(self, number):
-        if number == 0:
-            return
-        if number > self.deck_count() and not self.is_dispile_empty():
-        #デッキの枚数が足りず、かつ捨て札があるとき(デッキ足りなくて捨て札もないときに詰みそう)
-            number -= self.deck_count()
-            self.deck.all_move_to(self.hand, 'r')
-            self.dispile_to_deck()
-        drawcard = self.pop_from_decktop(number)
-        self.add_hand(drawcard[::-1])
+        drawcard = self.turn_over_from_deck(number)
+        self.add_hand(drawcard)
 
     def pop_from_decktop(self, number):
         return self.deck.pop_from_top(number)
